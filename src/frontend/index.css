@@ -1,0 +1,197 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Fonts ─────────────────────────────────────────────── */
+@font-face {
+  font-family: "Mona Sans";
+  src: url("/assets/fonts/MonaSans.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Outfit";
+  src: url("/assets/fonts/Outfit.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Design Tokens ─────────────────────────────────────── */
+@layer base {
+  :root {
+    --radius: 0.75rem;
+
+    /* Core palette — deep obsidian dark theme */
+    --background: 0.08 0.005 260;
+    --foreground: 0.94 0.01 80;
+
+    --card: 0.11 0.008 255;
+    --card-foreground: 0.94 0.01 80;
+
+    --popover: 0.12 0.008 255;
+    --popover-foreground: 0.94 0.01 80;
+
+    /* Gold accent — warm amber glow */
+    --primary: 0.82 0.165 80;
+    --primary-foreground: 0.08 0.005 260;
+
+    --secondary: 0.14 0.01 255;
+    --secondary-foreground: 0.85 0.01 80;
+
+    --muted: 0.15 0.008 255;
+    --muted-foreground: 0.52 0.02 260;
+
+    --accent: 0.78 0.18 82;
+    --accent-foreground: 0.08 0.005 260;
+
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+
+    --border: 0.22 0.015 260;
+    --input: 0.22 0.015 260;
+    --ring: 0.82 0.165 80;
+
+    --chart-1: 0.82 0.165 80;
+    --chart-2: 0.6 0.118 184.704;
+    --chart-3: 0.398 0.07 227.392;
+    --chart-4: 0.828 0.189 84.429;
+    --chart-5: 0.769 0.188 70.08;
+
+    --sidebar: 0.1 0.006 255;
+    --sidebar-foreground: 0.94 0.01 80;
+    --sidebar-primary: 0.82 0.165 80;
+    --sidebar-primary-foreground: 0.08 0.005 260;
+    --sidebar-accent: 0.14 0.01 255;
+    --sidebar-accent-foreground: 0.85 0.01 80;
+    --sidebar-border: 0.22 0.015 260;
+    --sidebar-ring: 0.82 0.165 80;
+
+    /* Site-specific */
+    --glow-color: oklch(0.82 0.165 80);
+    --glow-subtle: oklch(0.82 0.165 80 / 0.12);
+    --glow-medium: oklch(0.82 0.165 80 / 0.28);
+    --glow-strong: oklch(0.82 0.165 80 / 0.55);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Outfit", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* ─── Grain Texture Overlay ─────────────────────────────── */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ─── Number Glow Animation ─────────────────────────────── */
+@keyframes numGlow {
+  0%, 100% {
+    text-shadow:
+      0 0 20px var(--glow-medium),
+      0 0 60px var(--glow-subtle),
+      0 0 100px oklch(0.82 0.165 80 / 0.08);
+  }
+  50% {
+    text-shadow:
+      0 0 30px var(--glow-strong),
+      0 0 80px var(--glow-medium),
+      0 0 140px var(--glow-subtle);
+  }
+}
+
+@keyframes cardPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px oklch(0.82 0.165 80 / 0.12),
+      0 8px 32px oklch(0 0 0 / 0.5),
+      inset 0 1px 0 oklch(0.82 0.165 80 / 0.08);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px oklch(0.82 0.165 80 / 0.22),
+      0 8px 48px oklch(0 0 0 / 0.6),
+      inset 0 1px 0 oklch(0.82 0.165 80 / 0.14);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes lineExpand {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes digitFlip {
+  0% { transform: translateY(0); opacity: 1; }
+  40% { transform: translateY(-8px); opacity: 0; }
+  60% { transform: translateY(8px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.animate-num-glow {
+  animation: numGlow 3s ease-in-out infinite;
+}
+
+.animate-card-pulse {
+  animation: cardPulse 3s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-line-expand {
+  animation: lineExpand 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-digit-flip {
+  animation: digitFlip 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-num-glow,
+  .animate-card-pulse,
+  .animate-fade-in-up,
+  .animate-line-expand,
+  .animate-digit-flip {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
